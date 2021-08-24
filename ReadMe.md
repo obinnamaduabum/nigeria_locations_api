@@ -1,0 +1,2 @@
+python manage.py makemigrations name_of_application
+# nigerian_locations
