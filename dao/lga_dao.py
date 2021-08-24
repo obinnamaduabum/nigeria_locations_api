@@ -9,6 +9,8 @@ class LGADao:
     
     def find_by_name(self, name):
         try:
-            return LGA.objects.exclude(pk=self.instance.pk).get(name=name)
+            # return LGA.objects.exclude(pk=self.instance.pk).get(name=name)
+            found = LGA.objects.get(name=name)
+            return found
         except LGA.DoesNotExist:
             return None

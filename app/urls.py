@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from my_modules.excel_reader import ExcelReader
+from service.state_service import StateService
+from dao.states_dao import StateDao
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('locations/', include('nigerian_locations.urls'))
@@ -23,7 +25,17 @@ urlpatterns = [
 
 
 def one_time_startup():
-    excel_reader = ExcelReader()
-    excel_reader.fetch_excel_reader()
+    
+    state_dao = StateDao()
+    count = state_dao.count()
+    print(f'count: {count}')
+    if count > 30:
+        pass
+    else:
+        state_service = StateService()
+        state_service.init(count)
+
+
+
 
 one_time_startup()

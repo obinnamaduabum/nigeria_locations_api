@@ -27,7 +27,6 @@ class ExcelReader:
 
             state_service = StateService()
             state_service.create(state_name, lga_name, area_name, locality_name)
-            break
             
             # with transaction.atomic():
             #     state_obj.save()

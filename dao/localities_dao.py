@@ -9,6 +9,9 @@ class LocalitiesDao:
     
     def find_by_name(self, name):
         try:
-            return Localities.objects.exclude(pk=self.instance.pk).get(name=name)
+            # return Localities.objects.exclude(pk=self.instance.pk).get(name=name)
+            
+            found = Localities.objects.get(name=name)
+            return found
         except Localities.DoesNotExist:
             return None

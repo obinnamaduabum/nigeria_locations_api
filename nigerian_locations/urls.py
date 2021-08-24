@@ -5,4 +5,3 @@ urlpatterns = [
     path('', views.index),
     path('new', views.add),
 ]
-

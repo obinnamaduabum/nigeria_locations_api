@@ -1,4 +1,4 @@
-from nigerian_locations.models import Area, Localities
+from nigerian_locations.models import Area
 
 class AreaDao:
 
@@ -9,6 +9,8 @@ class AreaDao:
     
     def find_by_name(self, name):
         try:
-            return Area.objects.exclude(pk=self.instance.pk).get(name=name)
+            # return Area.objects.exclude(pk=self.instance.pk).get(name=name)
+            found = Area.objects.get(name=name)
+            return found
         except Area.DoesNotExist:
             return None
