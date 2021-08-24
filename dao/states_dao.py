@@ -1,4 +1,5 @@
 from nigerian_locations.models import State
+from my_modules.my_utils import MyUtils
 
 class StateDao:
 
@@ -12,12 +13,22 @@ class StateDao:
 
     def count(self):
         return State.objects.count()
-        
-    
+
     def find_by_name(self, name):
         try:
-            found_state = State.objects.get(name=name)
-            return found_state
+            input = name.lower()
+            # name__iexact - this ignores all cases 
+            found = State.objects.get(name__iexact=input)
+            return MyUtils().serialize_model_to_json(found)
+            # return State.objects.exclude(pk=self.instance.pk).get(name=name)
+        except State.DoesNotExist:
+            return None
+
+
+    def find_by_id(self, id):
+        try:
+            found = State.objects.get(id=id)
+            return MyUtils().serialize_model_to_json(found)
             # return State.objects.exclude(pk=self.instance.pk).get(name=name)
         except State.DoesNotExist:
             return None

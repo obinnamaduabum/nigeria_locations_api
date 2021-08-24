@@ -1,4 +1,5 @@
 from nigerian_locations.models import State, LGA, Area, Localities
+from my_modules.my_utils import MyUtils
 
 class LGADao:
 
@@ -10,7 +11,16 @@ class LGADao:
     def find_by_name(self, name):
         try:
             # return LGA.objects.exclude(pk=self.instance.pk).get(name=name)
-            found = LGA.objects.get(name=name)
-            return found
+            found = LGA.objects.get(name__iexact=name)
+            return MyUtils().serialize_model_to_json(found)
+        
+        except LGA.DoesNotExist:
+            return None
+    
+    def find_by_id(self, id):
+        try:
+            found = LGA.objects.get(id=id)
+            return MyUtils().serialize_model_to_json(found)
+            # return State.objects.exclude(pk=self.instance.pk).get(name=name)
         except LGA.DoesNotExist:
             return None

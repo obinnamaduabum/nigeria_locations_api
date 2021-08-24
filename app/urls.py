@@ -18,6 +18,8 @@ from django.urls import path, include
 from service.state_service import StateService
 from dao.states_dao import StateDao
 
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('locations/', include('nigerian_locations.urls'))

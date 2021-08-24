@@ -3,62 +3,71 @@ from dao.states_dao import StateDao
 from dao.lga_dao import LGADao
 from dao.localities_dao import LocalitiesDao
 from nigerian_locations.models import State, LGA, Area, Localities
+from my_modules.excel_reader import ExcelReader
+from my_modules.my_utils import MyUtils
+
 
 class StateService:
 
     def find(self, name):
-        found_state = StateDao.find_by_name(name)
-        found_lga = LGADao.find_by_name(name)
-        found_area = AreaDao.find_by_name(name)
-        found_locality = LocalitiesDao.find_by_name(name)
+
+        found_state = StateDao().find_by_name(name)
+        found_lga = LGADao().find_by_name(name)
+        found_area = AreaDao().find_by_name(name)
+        found_locality = LocalitiesDao().find_by_name(name)
+
+
+        if found_locality != None and found_area == None:
+            found_area = AreaDao().find_by_id(id=found_locality['area'])
+        if found_area != None and found_lga == None:
+            found_lga = LGADao().find_by_id(id=found_area['lga'])
+        if found_lga != None and found_state == None:
+            found_state = StateDao().find_by_id(id=found_lga['state'])
 
         return {
             'state': found_state,
-            'lga' : found_lga,
+            'lga': found_lga,
             'area': found_area,
             'locality': found_locality
         }
 
 
-    def init(self, data):
-        state_dao = StateDao()
-        count = state_dao.count()
-        print(f'count: {count}')
-        if count > 30:
-            pass
-        else:
-            for row in data.iterrows():
-                # print(type(row))
+    def init(self):
+       
+        excel_reader = ExcelReader()
+        data = excel_reader.fetch_excel_reader()
+        for row in data.iterrows():
+            # print(type(row))
 
-                my_size = list(row)
-                #print(len(my_size)) #length is 2 thus data is stored on the object
+            my_size = list(row)
+            #print(len(my_size)) #length is 2 thus data is stored on the object
 
-                columns = row[1]
-                state_name = columns['State Name']
-                lga_name = columns['Lga Name']
-                area_name = columns['Area Name']
-                locality_name = columns['Locality Name']
+            columns = row[1]
+            state_name = columns['State Name']
+            lga_name = columns['Lga Name']
+            area_name = columns['Area Name']
+            locality_name = columns['Locality Name']
 
-                self.create(state_name, lga_name, area_name, locality_name)
-                
-                # with transaction.atomic():
-                #     state_obj.save()
-                # break
-                # for j, column in list(row):
-                #     print(column)
+            self.create(state_name, lga_name, area_name, locality_name)
+            
+            # with transaction.atomic():
+            #     state_obj.save()
+            # break
+            # for j, column in list(row):
+            #     print(column)
 
-                # try:
-                #     #print(row[1])
-                #     #print(row[2])
-                #     #print(row[4])
-                #     print(row)
-                #     # print(row[6])
-                #     # print(row[7])
-                #     # print(row[8])
-                #     # print(row[9])
-                #     # print(row[10])
-                # except:
-                #     pass
+            # try:
+            #     #print(row[1])
+            #     #print(row[2])
+            #     #print(row[4])
+            #     print(row)
+            #     # print(row[6])
+            #     # print(row[7])
+            #     # print(row[8])
+            #     # print(row[9])
+            #     # print(row[10])
+            # except:
+            #     pass
         
 
     def create(self, state_name, lga_name, area_name, locality_name):
