@@ -12,3 +12,8 @@ class MyUtils:
         print(type(fields_obj))
         # print("!!!!!!!!!!!!!!!!!!!")
         return fields_obj
+
+    def read_file(self, url):
+        f = open(url,)
+        data = json.load(f)
+        return data

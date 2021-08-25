@@ -14,7 +14,8 @@ class AreaDao:
         try:
             # return Area.objects.exclude(pk=self.instance.pk).get(name=name)
             found = Area.objects.get(name__iexact=name)
-            return MyUtils().serialize_model_to_json(found)
+            # return MyUtils().serialize_model_to_json(found)
+            return found
     
         except Area.DoesNotExist:
             return None
@@ -22,7 +23,8 @@ class AreaDao:
     def find_by_id(self, id):
         try:
             found = Area.objects.get(id=id)
-            return MyUtils().serialize_model_to_json(found)
+            # return MyUtils().serialize_model_to_json(found)
             # return State.objects.exclude(pk=self.instance.pk).get(name=name)
+            return found
         except Area.DoesNotExist:
             return None

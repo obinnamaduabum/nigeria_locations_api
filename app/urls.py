@@ -30,14 +30,11 @@ def one_time_startup():
     
     state_dao = StateDao()
     count = state_dao.count()
-    print(f'count: {count}')
+    # print(f'count: {count}')
     if count > 30:
         pass
     else:
         state_service = StateService()
-        state_service.init(count)
-
-
-
+        state_service.init()
 
 one_time_startup()

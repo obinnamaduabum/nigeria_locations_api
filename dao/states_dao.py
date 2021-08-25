@@ -19,7 +19,8 @@ class StateDao:
             input = name.lower()
             # name__iexact - this ignores all cases 
             found = State.objects.get(name__iexact=input)
-            return MyUtils().serialize_model_to_json(found)
+            # return MyUtils().serialize_model_to_json(found)
+            return found
             # return State.objects.exclude(pk=self.instance.pk).get(name=name)
         except State.DoesNotExist:
             return None
@@ -28,7 +29,8 @@ class StateDao:
     def find_by_id(self, id):
         try:
             found = State.objects.get(id=id)
-            return MyUtils().serialize_model_to_json(found)
+            return found
+            # return MyUtils().serialize_model_to_json(found)
             # return State.objects.exclude(pk=self.instance.pk).get(name=name)
         except State.DoesNotExist:
             return None
